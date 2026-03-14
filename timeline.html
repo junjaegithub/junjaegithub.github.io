@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Timeline – Junjae Lee</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Timeline page styles ── */
+    .tl-intro {
+      max-width: 580px;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .tl-legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .tl-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .tl-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── The line ── */
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--blue), var(--orange));
+      border-radius: 2px;
+    }
+
+    /* ── Each entry ── */
+    .tl-entry {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    /* Dot on the line */
+    .tl-dot {
+      position: absolute;
+      left: -33px;
+      top: 16px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px currentColor;
+      transition: transform 0.2s;
+      z-index: 1;
+    }
+
+    .tl-entry:hover .tl-dot { transform: scale(1.25); }
+
+    .tl-dot.blue  { background: var(--blue);   color: var(--blue); }
+    .tl-dot.orange{ background: var(--orange);  color: var(--orange); }
+
+    /* Card */
+    .tl-card {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .tl-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+    .tl-card.open  { box-shadow: 0 4px 20px rgba(0,0,0,0.11); }
+
+    /* Card header – always visible */
+    .tl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      gap: 12px;
+    }
+
+    .tl-header-left { flex: 1; min-width: 0; }
+
+    .tl-dates {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    .tl-company {
+      font-weight: 700;
+      font-size: 0.97rem;
+      color: var(--dark);
+      margin-bottom: 1px;
+    }
+
+    .tl-role {
+      font-size: 0.87rem;
+      font-weight: 600;
+    }
+
+    .tl-role.blue   { color: var(--blue); }
+    .tl-role.orange { color: var(--orange); }
+
+    .tl-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .tl-flags {
+      display: flex;
+      gap: 4px;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .tl-chevron {
+      font-size: 0.75rem;
+      color: var(--mid);
+      transition: transform 0.25s;
+      user-select: none;
+    }
+
+    .tl-presence {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .tl-badge {
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-base     { background: #e8f0f7; color: #1a6fa8; }
+    .badge-remote   { background: #f0f0f0; color: #555; }
+    .badge-onsite   { background: #fef0e6; color: #d45d00; }
+    .badge-relocated{ background: #1a6fa8; color: #fff; }
+
+    .tl-card.open .tl-chevron { transform: rotate(180deg); }
+
+    /* Card body – hidden by default */
+    .tl-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.2s;
+      padding: 0 18px;
+    }
+
+    .tl-card.open .tl-body {
+      max-height: 600px;
+      padding: 0 18px 16px;
+    }
+
+    .tl-body p {
+      font-size: 0.88rem;
+      color: #444;
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+
+    .tl-body p:last-child { margin-bottom: 0; }
+
+    .tl-body ul {
+      font-size: 0.87rem;
+      color: #444;
+      padding-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    .tl-body ul li { margin-bottom: 4px; }
+
+    .tl-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 12px;
+    }
+
+    /* Year marker */
+    .tl-year-marker {
+      position: relative;
+      left: -36px;
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      background: var(--mid);
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 520px) {
+      .tl-flags { font-size: 1rem; }
+      .tl-header { padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Junjae Lee</span>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="timeline.html" class="active">Timeline</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <h2 class="section" style="margin-top:0;">Career Timeline</h2>
+
+  <p class="tl-intro">
+    27+ years in healthcare technology — from software engineer to product director,
+    spanning New Zealand, Canada, Australia, Europe, and the United States.
+    Click any role to expand details.
+  </p>
+
+  <div class="tl-legend">
+    <div class="tl-legend-item">
+      <div class="tl-legend-dot" style="background:var(--blue)"></div>
+      Leadership &amp; Product roles
+    </div>
+    <div class="tl-legend-item">
+      <div class="tl-legend-dot" style="background:var(--orange)"></div>
+      Architecture &amp; Engineering roles
+    </div>
+  </div>
+  <div class="tl-legend">
+    <div class="tl-legend-item"><span class="tl-badge badge-base">🏠 NZ base</span> Home country throughout</div>
+    <div class="tl-legend-item"><span class="tl-badge badge-relocated">📍 Relocated</span> Physically moved for the role</div>
+    <div class="tl-legend-item"><span class="tl-badge badge-onsite">✈️ Onsite</span> Short-term travel for projects</div>
+    <div class="tl-legend-item"><span class="tl-badge badge-remote">🌐 Remote</span> Worked remotely from NZ</div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- 2021 – Present -->
+    <div class="tl-entry">
+      <div class="tl-dot blue"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">Nov 2021 – Present</div>
+            <div class="tl-company">Orion Health</div>
+            <div class="tl-role blue">Associate Product Director</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-remote">🌐 Remote</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Leading the development of a data anonymization product within the Orchestral Intelligent Data Platform, overseeing all stages from ideation to launch.</p>
+          <p>Defined product vision and strategic goals, managed the roadmap, and coordinated cross-functional teams across engineering, design, and business units.</p>
+          <p>Driving cloud and AI infrastructure including Databricks in customer-managed VPCs via PrivateLink, EKS-based model serving, vector stores, and LLM deployments in regulated healthcare environments.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2018 – 2025 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2018 – Feb 2025</div>
+            <div class="tl-company">Orion Health – Precision Driven Health</div>
+            <div class="tl-role orange">Senior Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-remote">🌐 Remote</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Spearheaded two precision-driven health IT projects as a principal researcher with data scientists and engineers to automate anonymisation of healthcare data and apply Machine Learning to aid message mapping capability.</p>
+          <p>Introduced machine learning capability into existing and new products. Researched US healthcare insurance solutions to identify product gaps for market expansion.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2016 – 2018 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2016 – 2018</div>
+            <div class="tl-company">Orion Health – Shared Technology Group</div>
+            <div class="tl-role orange">Senior Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-remote">🌐 Remote</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Built SaaS-based architecture for an EMPI (Enterprise Master Patient Index) solution packaged into Orion Health's standard Open Platform.</p>
+          <p>Deployed a 3rd party Terminology Service (HealthTerm) into AWS US regions as a multi-tenanted SaaS model, 24/7 monitored with near zero-downtime. Applied DevOps and SRE practices.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2012 – 2016 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2012 – 2016</div>
+            <div class="tl-company">Orion Health – Global Professional Services</div>
+            <div class="tl-role orange">Senior Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-onsite">✈️ Onsite US</span>
+              <span class="tl-badge badge-remote">🌐 Remote</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿 🇺🇸 🇦🇺</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Established TOGAF Enterprise Architecture principles for large and complex solutions. Led technical and presales consultants for remote implementation of US projects:</p>
+          <ul>
+            <li>DSM solution for Massachusetts Executive Office of Health, MA USA</li>
+            <li>HIE solution for Mississippi Division of Medicaid, MS USA</li>
+            <li>Integration framework between Orion HIE and Microsoft's Caradigm Intelligence Platform</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2011 – 2012 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2011 – 2012</div>
+            <div class="tl-company">Orion Health – APAC Client Support</div>
+            <div class="tl-role orange">Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-onsite">✈️ Onsite AU/SG/KR</span>
+              <span class="tl-badge badge-remote">🌐 Remote</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿 🇦🇺 🇸🇬 🇰🇷</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Provided remote and on-site support for Asia Pacific clients across NZ, AU, Singapore, Japan, and Korea.</p>
+          <p>Built Chronic Disease Management systems for Hunter New England Health, NSW Australia, and Hospira's Clopine Connect CIS systems in Melbourne.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2008 – 2011 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2008 – 2011</div>
+            <div class="tl-company">Orion Health – Product Dev &amp; Global PS</div>
+            <div class="tl-role orange">Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-onsite">✈️ Onsite AU</span>
+              <span class="tl-badge badge-remote">🌐 Remote ES/CA</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿 🇦🇺</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Developed a Rapid Deployment package of core Orion products for global solutions. Key projects:</p>
+          <ul>
+            <li>IB Salut Regional EHR &amp; Case Management — Illes Balears, Spain (partnered with Fujitsu &amp; Oracle)</li>
+            <li>Australian Capital Territory Clinical Repository, Canberra, AU</li>
+            <li>Saskatchewan Provincial Interoperable EHR, Canada</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2005 – 2008 -->
+    <div class="tl-entry">
+      <div class="tl-dot blue"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2005 – 2008</div>
+            <div class="tl-company">Orion Health – Canada Office</div>
+            <div class="tl-role blue">Technical Manager / Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-relocated">📍 Relocated to Canada</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇨🇦</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Set up and trained technical resources for Orion's brand-new regional office in Edmonton, Canada. Key provincial EHR deliverables:</p>
+          <ul>
+            <li>Quebec Interoperable EHR — entire province, partnered with Bell Xwave</li>
+            <li>New Brunswick EHR — jointly with Canada's federal 'Infoway' architecture committee</li>
+            <li>Alberta Health &amp; Wellness Provincial Viewer — now known as Alberta netCARE Portal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2003 – 2005 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">2003 – 2005</div>
+            <div class="tl-company">Orion Health – Professional Services</div>
+            <div class="tl-role orange">Solutions Architect</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+              <span class="tl-badge badge-onsite">✈️ Onsite CA/GR/AU</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿 🇨🇦 🇬🇷 🇦🇺</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <ul>
+            <li>Chronic Disease Management — Calgary Health Region, Alberta, Canada (11 hospitals)</li>
+            <li>Athletes Medical History &amp; Prescription Systems — 2004 Athens Olympics, Greece (partnered with OPTUS AU)</li>
+            <li>ER Whiteboard Systems — North Shore Hospital, Auckland NZ</li>
+            <li>Health Connect Diabetics — Tasmania, Australia</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1998 – 2003 -->
+    <div class="tl-entry">
+      <div class="tl-dot blue"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">1998 – 2003</div>
+            <div class="tl-company">Orion Health</div>
+            <div class="tl-role blue">Development Team Leader / Software Engineer</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Created award-winning NZ Hi-Tech health applications and led development teams. Key products:</p>
+          <ul>
+            <li>Soprano Whiteboard, Medical Records, and Disease Management Systems (NZ, AU, UK)</li>
+            <li>KizNet Immunization Tracking, ED Patient Tracking, Electronic Discharge Systems</li>
+            <li>Diabetics Management, Referral Messaging, and Maternity Claiming Systems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1997 – 1998 -->
+    <div class="tl-entry">
+      <div class="tl-dot orange"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">1997 – 1998</div>
+            <div class="tl-company">Advanced Management Systems Ltd</div>
+            <div class="tl-role orange">Software Engineer</div>
+            <div class="tl-presence">
+              <span class="tl-badge badge-base">🏠 NZ base</span>
+            </div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Development &amp; maintenance of a proprietary ERP system (Leader) and ODBC driver for a proprietary Hierarchical database (AMPS).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="tl-entry">
+      <div class="tl-dot" style="background:var(--mid); color:var(--mid); border-color:white; box-shadow: 0 0 0 2px var(--mid);"></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-header">
+          <div class="tl-header-left">
+            <div class="tl-dates">1995 – 1996</div>
+            <div class="tl-company">University of Auckland</div>
+            <div class="tl-role" style="color:var(--mid);">M.Sc Computer Science – First Class Honours</div>
+          </div>
+          <div class="tl-header-right">
+            <div class="tl-flags">🇳🇿</div>
+            <div class="tl-chevron">▼</div>
+          </div>
+        </div>
+        <div class="tl-body">
+          <hr class="tl-divider">
+          <p>Master of Computer Science with First Class Honours, University of Auckland, New Zealand.</p>
+          <p>Bachelor of Engineering, Computer Engineering — Hongik University, South Korea (1989–1994).</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .timeline -->
+
+</div>
+
+<footer>
+  <p>Junjae Lee &nbsp;·&nbsp; Auckland, New Zealand &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/junjaelee-10532a3">LinkedIn</a> &nbsp;·&nbsp;
+    <a href="https://github.com/junjaegithub">GitHub</a>
+  </p>
+</footer>
+
+<script>
+  function toggle(card) {
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
