@@ -1,0 +1,391 @@
+/* =============================================
+   Shared stylesheet – Junjae Lee personal site
+   ============================================= */
+
+/* --- Reset & base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:   #1a6fa8;
+  --orange: #d45d00;
+  --dark:   #1e2a38;
+  --mid:    #4a5568;
+  --light:  #f7f8fa;
+  --border: #e2e8f0;
+  --white:  #ffffff;
+  --max-w:  860px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* --- Navigation --- */
+nav {
+  background: var(--dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+nav .nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+}
+
+nav .nav-brand {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+}
+
+nav ul a {
+  color: #c8d6e5;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+nav ul a:hover,
+nav ul a.active {
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+  text-decoration: none;
+}
+
+/* --- Page wrapper --- */
+.page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* --- Section headings --- */
+h2.section {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--orange);
+  border-bottom: 2px solid var(--orange);
+  padding-bottom: 4px;
+  margin: 36px 0 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Body text --- */
+p { margin-bottom: 10px; }
+ul { padding-left: 20px; margin-bottom: 12px; }
+ul li { margin-bottom: 5px; }
+strong { font-weight: 600; }
+
+/* ============================================================
+   HOME PAGE
+   ============================================================ */
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+  padding: 48px 0 36px;
+}
+
+.hero-text h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.hero-text .subtitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--mid);
+  margin-bottom: 18px;
+}
+
+.hero-text p {
+  color: #444;
+  max-width: 560px;
+}
+
+.hero-avatar {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--light);
+  border: 3px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  color: var(--mid);
+}
+
+/* Highlight cards */
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.highlight-card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 18px;
+  text-align: center;
+}
+
+.highlight-card .number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.highlight-card .label {
+  font-size: 0.82rem;
+  color: var(--mid);
+  line-height: 1.35;
+}
+
+/* Focus areas */
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.focus-item {
+  background: var(--light);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 16px;
+}
+
+.focus-item strong {
+  display: block;
+  color: var(--dark);
+  margin-bottom: 2px;
+  font-size: 0.9rem;
+}
+
+.focus-item span {
+  font-size: 0.83rem;
+  color: var(--mid);
+}
+
+/* CTA links */
+.cta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: opacity 0.15s;
+}
+
+.btn:hover { opacity: 0.85; text-decoration: none; }
+
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-secondary { background: var(--light); color: var(--dark); border: 1px solid var(--border); }
+
+/* ============================================================
+   CV PAGE
+   ============================================================ */
+
+.cv-header { margin-bottom: 28px; }
+.cv-header h1 { font-size: 2rem; font-weight: 700; color: var(--blue); margin-bottom: 2px; }
+.cv-header .cv-title { font-size: 1.05rem; font-weight: 600; color: var(--mid); margin-bottom: 8px; }
+.cv-header .cv-contact { font-size: 0.88rem; color: #555; }
+.cv-header .cv-contact a { color: var(--blue); }
+
+.job { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.job:last-of-type { border-bottom: none; }
+.job-dates { font-size: 0.85rem; color: var(--mid); font-weight: 600; margin-bottom: 1px; }
+.job-company { font-weight: 700; color: var(--dark); font-size: 0.98rem; }
+.job-role { font-weight: 600; color: var(--orange); font-size: 0.93rem; margin-bottom: 8px; }
+.project-title { font-weight: 700; color: var(--dark); margin: 10px 0 3px; font-size: 0.9rem; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px 16px;
+}
+
+.skills-grid span {
+  font-size: 0.85rem;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cert-list { list-style: none; padding: 0; }
+.cert-list li {
+  padding: 8px 12px;
+  background: var(--light);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.edu-entry { margin-bottom: 14px; }
+.edu-dates { font-weight: 700; color: var(--dark); font-size: 0.93rem; }
+.edu-entry .edu-school { font-weight: 600; }
+.edu-entry .edu-degree { color: var(--mid); font-size: 0.9rem; }
+
+/* ============================================================
+   PUBLICATIONS PAGE
+   ============================================================ */
+
+.pub-group { margin-bottom: 36px; }
+.pub-group h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--mid);
+  margin-bottom: 16px;
+}
+
+.pub-card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+
+.pub-card .pub-title {
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.pub-card .pub-authors {
+  font-size: 0.85rem;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.pub-card .pub-venue {
+  font-size: 0.85rem;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.pub-card .pub-doi {
+  font-size: 0.82rem;
+}
+
+.pub-card .pub-doi a { color: var(--blue); }
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+  max-width: 540px;
+}
+
+.contact-card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.contact-card .contact-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-card .contact-label {
+  font-size: 0.8rem;
+  color: var(--mid);
+  margin-bottom: 2px;
+}
+
+.contact-card .contact-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dark);
+  word-break: break-all;
+}
+
+.contact-card .contact-value a { color: var(--blue); }
+
+/* ============================================================
+   Footer
+   ============================================================= */
+
+footer {
+  background: var(--dark);
+  color: #8a9bb0;
+  text-align: center;
+  padding: 22px;
+  font-size: 0.82rem;
+}
+
+footer a { color: #8a9bb0; }
+
+/* ============================================================
+   Responsive
+   ============================================================= */
+
+@media (max-width: 620px) {
+  .hero { flex-direction: column-reverse; gap: 16px; }
+  .hero-avatar { width: 72px; height: 72px; font-size: 1.8rem; }
+  .hero-text h1 { font-size: 1.8rem; }
+  .highlights { grid-template-columns: 1fr 1fr; }
+  .focus-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  nav .nav-brand { font-size: 13px; }
+  nav ul a { padding: 6px 8px; font-size: 13px; }
+}
