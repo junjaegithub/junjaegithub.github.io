@@ -360,6 +360,12 @@ strong { font-weight: 600; }
 
 .contact-card .contact-value a { color: var(--blue); }
 
+/* Contact grid – centre last card if odd number */
+.contact-grid > .contact-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  max-width: 260px;
+}
+
 /* ============================================================
    Footer
    ============================================================= */
