@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun – Junjae Lee</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Junjae Lee</span>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="timeline.html">Timeline</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="fun.html" class="active">Fun</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <h1 style="font-size:1.8rem; font-weight:700; color:var(--blue); margin-bottom:10px;">Fun</h1>
+  <p class="fun-intro">
+    Things I build outside of work. Nothing here is related to my day job — just projects
+    that came out of a personal itch to scratch.
+  </p>
+
+  <!-- Cycle Sim -->
+  <div class="fun-card">
+    <div class="fun-card-header">
+      <h3>Cycle Sim</h3>
+      <span class="fun-tag">Web app</span>
+      <span class="fun-tag">Bluetooth</span>
+    </div>
+    <p>
+      An indoor cycling simulator that connects to a indoor bike trainer over Bluetooth and
+      drives real resistance to match the grade of any GPX route in real time. Live dashboard
+      with power, cadence, heart rate, and elevation. 2D and 3D maps, and voice commands.
+    </p>
+    <a href="https://ride.junjaelee.com" class="btn btn-primary" target="_blank" rel="noopener">Try it</a>
+  </div>
+
+  <!-- Sailing Trainer -->
+  <div class="fun-card">
+    <div class="fun-card-header">
+      <h3>Sailing Trainer</h3>
+      <span class="fun-tag">Android</span>
+      <span class="fun-tag">iOS</span>
+    </div>
+    <p>
+      Learn to sail — no water required. An interactive sailing simulator that teaches the
+      fundamentals through hands-on physics. Drag the wind, steer with the tiller, trim your
+      sails, and watch how it all affects speed, heel angle, and direction. Built after struggling
+      to get the intuition for wind and sail trim during my own sailing lessons.
+    </p>
+    <div style="margin-top:14px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <img src="sailing_trainer_qr.jpg" alt="Sailing Trainer QR code" style="width:100px; height:100px; border:1px solid var(--border); border-radius:6px;">
+      <p style="font-size:0.85rem; color:var(--mid); margin:0;">Download <a href="https://expo.dev/go" target="_blank" rel="noopener">Expo Go</a> then scan to try it on your phone.</p>
+    </div>
+  </div>
+
+  <!-- Scrubber (hidden for now) -->
+  <div class="fun-card" style="display:none;">
+    <div class="fun-card-header">
+      <h3>Scrubber</h3>
+      <span class="fun-tag">Chrome Extension</span>
+      <span class="fun-tag">Local app</span>
+    </div>
+    <p>
+      A Chrome extension that redacts personally identifiable information from local files —
+      entirely on your machine. Drop in a text file, PDF, Word document, or image and get a
+      clean redacted copy back. Names are detected using a BERT NER model; organisations,
+      locations, and custom patterns are optional.
+    </p>
+    <p>
+      A small Python server runs locally in the background. No data leaves your device.
+    </p>
+    <a href="contact.html" class="btn btn-secondary">Contact me to try it out</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>Junjae Lee &nbsp;·&nbsp; Auckland, New Zealand &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/junjae-lee-10532a3">LinkedIn</a> &nbsp;·&nbsp;
+    <a href="https://github.com/junjaegithub">GitHub</a>
+  </p>
+</footer>
+
+</body>
+</html>
