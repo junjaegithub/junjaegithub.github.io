@@ -5,6 +5,152 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fun – Junjae Lee</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .fun-layout {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      margin-top: 24px;
+    }
+
+    .fun-sidebar {
+      flex-shrink: 0;
+      width: 180px;
+    }
+
+    .fun-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .fun-sidebar ul li a {
+      display: block;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--mid);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .fun-sidebar ul li a:hover {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .fun-sidebar ul li a.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .fun-panels {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fun-panel { display: none; }
+    .fun-panel.active { display: block; }
+
+    .fun-panel h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .fun-panel .fun-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .fun-panel p {
+      color: #444;
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+    }
+
+    .fun-panel .fun-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .fun-panel .fun-features {
+      margin: 20px 0;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .fun-panel .fun-features h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+
+    .fun-panel .fun-features ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .fun-panel .fun-features ul li {
+      font-size: 0.88rem;
+      color: #444;
+      margin-bottom: 4px;
+    }
+
+    .fun-screenshots {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      padding-bottom: 4px;
+    }
+
+    .fun-screenshots img {
+      height: 180px;
+      width: auto;
+      flex-shrink: 0;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .fun-qr {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .fun-qr img {
+      width: 100px;
+      height: 100px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .fun-qr p {
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin: 0;
+    }
+
+    @media (max-width: 620px) {
+      .fun-layout { flex-direction: column; gap: 24px; }
+      .fun-sidebar { width: 100%; }
+      .fun-sidebar ul li a { padding: 8px 14px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -24,63 +170,223 @@
 
 <div class="page">
 
-  <h1 style="font-size:1.8rem; font-weight:700; color:var(--blue); margin-bottom:10px;">Fun</h1>
-  <p class="fun-intro">
-    Things I build outside of work. Nothing here is related to my day job — just projects
-    that came out of a personal itch to scratch.
-  </p>
+  <h1 style="font-size:1.8rem; font-weight:700; color:var(--blue); margin-bottom:6px;">Fun</h1>
+  <p style="color:#555; margin-bottom:0;">Things I build outside of work — nothing related to my day job.</p>
 
-  <!-- Cycle Sim -->
-  <div class="fun-card">
-    <div class="fun-card-header">
-      <h3>Cycle Sim</h3>
-      <span class="fun-tag">Web app</span>
-      <span class="fun-tag">Bluetooth</span>
-    </div>
-    <p>
-      An indoor cycling simulator that connects to a indoor bike trainer over Bluetooth and
-      drives real resistance to match the grade of any GPX route in real time. Live dashboard
-      with power, cadence, heart rate, and elevation. 2D and 3D maps, and voice commands.
-    </p>
-    <a href="https://ride.junjaelee.com" class="btn btn-primary" target="_blank" rel="noopener">Try it</a>
-  </div>
+  <div class="fun-layout">
 
-  <!-- Sailing Trainer -->
-  <div class="fun-card">
-    <div class="fun-card-header">
-      <h3>Sailing Trainer</h3>
-      <span class="fun-tag">Android</span>
-      <span class="fun-tag">iOS</span>
+    <!-- Sidebar -->
+    <div class="fun-sidebar">
+      <ul>
+        <li><a href="#" class="active" data-panel="cycle-sim">Cycle Simulator</a></li>
+        <li><a href="#" data-panel="sailing-trainer">Sailing Trainer</a></li>
+      </ul>
     </div>
-    <p>
-      Learn to sail — no water required. An interactive sailing simulator that teaches the
-      fundamentals through hands-on physics. Drag the wind, steer with the tiller, trim your
-      sails, and watch how it all affects speed, heel angle, and direction. Built after struggling
-      to get the intuition for wind and sail trim during my own sailing lessons.
-    </p>
-    <div style="margin-top:14px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-      <img src="sailing_trainer_qr.jpg" alt="Sailing Trainer QR code" style="width:100px; height:100px; border:1px solid var(--border); border-radius:6px;">
-      <p style="font-size:0.85rem; color:var(--mid); margin:0;">Download <a href="https://expo.dev/go" target="_blank" rel="noopener">Expo Go</a> then scan to try it on your phone.</p>
-    </div>
-  </div>
 
-  <!-- Scrubber (hidden for now) -->
-  <div class="fun-card" style="display:none;">
-    <div class="fun-card-header">
-      <h3>Scrubber</h3>
-      <span class="fun-tag">Chrome Extension</span>
-      <span class="fun-tag">Local app</span>
+    <!-- Panels -->
+    <div class="fun-panels">
+
+      <!-- Cycle Simulator -->
+      <div class="fun-panel active" id="cycle-sim">
+        <h2>Cycle Simulator</h2>
+        <div class="fun-tags">
+          <span class="fun-tag">Web app</span>
+          <span class="fun-tag">Bluetooth</span>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="fun-screenshots">
+          <img src="photos/Cycling_Sim1.jpg" alt="Cycle Simulator screenshot 1">
+          <img src="photos/Cycling_Sim2.jpg" alt="Cycle Simulator screenshot 2">
+          <img src="photos/Cycling_Sim3.jpg" alt="Cycle Simulator screenshot 3">
+          <img src="photos/Cycling_Sim4.jpg" alt="Cycle Simulator screenshot 4">
+        </div>
+
+        <!-- Background -->
+        <p>
+          I have been riding bikes for 20 years — starting with cross-country mountain biking
+          on the trails around Edmonton, Canada, then moving to Woodhill Forest in Auckland,
+          and eventually settling into road cycling. Mostly commuting, but with the occasional
+          longer adventure: I have ridden Seoul to Busan (500+ km) twice.
+        </p>
+        <p>
+          Winter and rainy seasons are the catch. I tried a few indoor cycling platforms but
+          none of them let me ride the routes I actually wanted. So I built my own.
+        </p>
+
+        <!-- What you need -->
+        <div class="fun-features">
+          <h3>What you need</h3>
+          <ul>
+            <li>A Wahoo KICKR or any FTMS-compatible indoor trainer</li>
+            <li>Chrome or Edge browser (required for Web Bluetooth)</li>
+            <li>A GPX route file — download one or plan your own</li>
+            <li>Optional: a Bluetooth heart rate monitor (Wahoo TICKR or similar)</li>
+          </ul>
+        </div>
+
+        <!-- Features -->
+        <div class="fun-features">
+          <h3>What it does</h3>
+          <ul>
+            <li>Real-time grade simulation sent to a bike trainer via Bluetooth</li>
+            <li>Heart rate monitoring via Bluetooth</li>
+            <li>Live dashboard — power, cadence, speed, heart rate, grade, elevation, and distance</li>
+            <li>2D map (Leaflet / OpenStreetMap), 3D map (CesiumJS), and Mapbox GL JS 3D map</li>
+            <li>GPX route upload with elevation profile and lookahead chart</li>
+            <li>Switch between riding and simulation mode</li>
+            <li>Ride virtually anywhere in the world</li>
+          </ul>
+        </div>
+
+        <!-- Architecture -->
+        <div class="fun-features">
+          <h3>Architecture</h3>
+          <p style="color:#444; font-size:0.9rem; margin:8px 0 14px;">
+            The system is split into five areas: infrastructure (Railway + PostgreSQL),
+            auth and billing (Supabase, Resend, Stripe), maps and media providers
+            (Mapbox, Cesium, Google Maps, YouTube), browser-side hardware integration,
+            and app product subsystems.
+          </p>
+
+          <p style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--mid); margin-bottom:8px;">How it fits together</p>
+          <ol style="padding-left:18px; margin-bottom:16px;">
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">The browser loads the app from Railway.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">The user authenticates with Supabase Auth.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">Supabase sends auth emails through Resend when needed.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">The backend verifies Supabase JWTs and maps them to app users in Railway PostgreSQL.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">Billing actions go through Stripe — webhooks call back into the Railway app to update plan and entitlement state.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">Route data is stored in Railway PostgreSQL, account-backed per user.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">Map and media features use Mapbox, Cesium Ion, Google Maps, and optional YouTube or local video.</li>
+            <li style="font-size:0.88rem; color:#444; margin-bottom:5px;">Trainer and HR hardware connect directly from the rider's browser via Web Bluetooth.</li>
+          </ol>
+
+          <div style="background:var(--light); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; padding:14px 16px; margin-bottom:16px;">
+            <p style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--blue); margin-bottom:6px;">Why the browser owns the Bluetooth connection</p>
+            <p style="font-size:0.88rem; color:#444; margin:0;">
+              The app runs in the cloud, but the trainer and heart rate monitor are physically
+              next to the rider. A cloud server cannot reach those devices directly — so the
+              browser owns the Bluetooth connection and sends control commands to the trainer
+              locally, while staying in sync with the hosted app. This is what makes remote
+              hosting actually work for a real rider setup.
+            </p>
+          </div>
+
+          <img src="photos/cycle-hosted-architecture.drawio.png" alt="Cycle Simulator architecture diagram" style="width:100%; border:1px solid var(--border); border-radius:8px;">
+        </div>
+
+        <div class="fun-actions">
+          <a href="https://ride.junjaelee.com" class="btn btn-primary" target="_blank" rel="noopener">Do you want to try it out yourself?</a>
+        </div>
+      </div>
+
+      <!-- Sailing Trainer -->
+      <div class="fun-panel" id="sailing-trainer">
+        <h2>Sailing Trainer</h2>
+        <div class="fun-tags">
+          <span class="fun-tag">Android</span>
+          <span class="fun-tag">iOS</span>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="fun-screenshots">
+          <img src="photos/sailing_sim_1.jpg" alt="Sailing Trainer screenshot 1">
+          <img src="photos/sailing_sim_2.jpg" alt="Sailing Trainer screenshot 2">
+          <img src="photos/sailing_sim_3.jpg" alt="Sailing Trainer screenshot 3">
+          <img src="photos/sailing_sim_4.jpg" alt="Sailing Trainer screenshot 4">
+          <img src="photos/sailing_sim_5.jpg" alt="Sailing Trainer screenshot 5">
+        </div>
+
+        <!-- Background -->
+        <p>
+          I was first introduced to sailing many years ago by a friend, and something about it
+          immediately stuck with me. Years later, a conversation with a colleague nudged me to
+          finally give it a proper try — I completed Level 1, took a break, then came back for
+          Level 2. That's when things started to get challenging.
+        </p>
+        <p>
+          Understanding wind direction, sail position, and the tiller all at the same time was
+          surprisingly confusing. My colleague and I even built a small toy yacht to try to
+          visualise how it all worked.
+        </p>
+        <div style="margin: 16px 0;">
+          <img src="photos/sailing_toy_yacht.jpg" alt="Toy yacht we built to visualise sailing concepts" style="width:220px; border-radius:6px; border:1px solid var(--border);">
+          <p style="font-size:0.82rem; color:var(--mid); margin-top:6px;">The toy yacht we built trying to get our heads around it.</p>
+        </div>
+        <p>
+          It helped a little — but not enough. So I built an app instead. What started as a
+          personal learning tool turned into something I hope helps other beginners too.
+        </p>
+
+        <!-- What you need -->
+        <div class="fun-features">
+          <h3>What you need</h3>
+          <ul>
+            <li>An Android or iOS phone</li>
+            <li>The <a href="https://expo.dev/go" target="_blank" rel="noopener">Expo Go</a> app to run it (no install from a store required)</li>
+            <li>No internet needed once loaded — runs entirely on device</li>
+          </ul>
+        </div>
+
+        <!-- What you'll learn -->
+        <div class="fun-features">
+          <h3>What you'll learn</h3>
+          <ul>
+            <li>Points of sail — close-haul, beam reach, broad reach, running</li>
+            <li>Sail trim — sheet in or ease out for maximum speed</li>
+            <li>Tacking upwind — zigzagging to reach a destination into the wind</li>
+            <li>Heel angle — how wind speed and sail trim affect stability</li>
+            <li>VMG — Velocity Made Good, and why it matters upwind</li>
+            <li>Wind shifts — how to recognise and respond to changing conditions</li>
+          </ul>
+        </div>
+
+        <!-- Tech stack -->
+        <div class="fun-features">
+          <h3>Built with</h3>
+          <ul>
+            <li>React Native + Expo — single codebase for Android and iOS</li>
+            <li>TypeScript (strict mode throughout)</li>
+            <li>react-native-svg for all physics rendering</li>
+            <li>expo-av for ambient ocean and wind audio</li>
+            <li>No backend — the entire app runs on device</li>
+          </ul>
+        </div>
+
+        <p>
+          The app is currently in closed testing — if you'd like to participate as a tester
+          and share your feedback, I'd love to hear from you.
+          <a href="contact.html">Get in touch</a>.
+        </p>
+
+        <div class="fun-actions">
+          <div class="fun-qr">
+            <img src="photos/sailing_trainer_qr.jpg" alt="Sailing Trainer QR code">
+            <p>Download <a href="https://expo.dev/go" target="_blank" rel="noopener">Expo Go</a>, then scan to try it on your phone.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber (hidden from sidebar, content kept for later) -->
+      <div class="fun-panel" id="scrubber">
+        <h2>Scrubber</h2>
+        <div class="fun-tags">
+          <span class="fun-tag">Chrome Extension</span>
+          <span class="fun-tag">Local app</span>
+        </div>
+        <p>
+          A Chrome extension that redacts personally identifiable information from local files —
+          entirely on your machine. Drop in a text file, PDF, Word document, or image and get a
+          clean redacted copy back. Names are detected using a BERT NER model; organisations,
+          locations, and custom patterns are optional.
+        </p>
+        <p>A small Python server runs locally in the background. No data leaves your device.</p>
+        <div class="fun-actions">
+          <a href="contact.html" class="btn btn-secondary">Contact me to try it out</a>
+        </div>
+      </div>
+
     </div>
-    <p>
-      A Chrome extension that redacts personally identifiable information from local files —
-      entirely on your machine. Drop in a text file, PDF, Word document, or image and get a
-      clean redacted copy back. Names are detected using a BERT NER model; organisations,
-      locations, and custom patterns are optional.
-    </p>
-    <p>
-      A small Python server runs locally in the background. No data leaves your device.
-    </p>
-    <a href="contact.html" class="btn btn-secondary">Contact me to try it out</a>
   </div>
 
 </div>
@@ -91,6 +397,21 @@
     <a href="https://github.com/junjaegithub">GitHub</a>
   </p>
 </footer>
+
+<script>
+  const links = document.querySelectorAll('.fun-sidebar a');
+  const panels = document.querySelectorAll('.fun-panel');
+
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      links.forEach(l => l.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById(link.dataset.panel).classList.add('active');
+    });
+  });
+</script>
 
 </body>
 </html>
